@@ -33,7 +33,7 @@ namespace IdentityServerHost
             services.AddAuthentication()
                .AddJwtBearer(jwt =>
                {
-                   jwt.Authority = "http://localhost:5000";
+                   jwt.Authority = "http://localhost/";
                    jwt.RequireHttpsMetadata = false;
                    jwt.Audience = "api1";
                });

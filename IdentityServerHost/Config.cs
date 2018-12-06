@@ -13,13 +13,14 @@ namespace IdentityServerHost
             new Client
             {
                 ClientId = "spa",
-                AllowedGrantTypes = GrantTypes.Implicit,
+                AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
                 AllowAccessTokensViaBrowser = true,
                 RedirectUris = {
                     "http://localhost:5000/callback.html",
                     "http://localhost:5000/popup.html",
                     "http://localhost:5000/silent.html"
                 },
+                ClientSecrets = new List<Secret>{ new Secret("test1".Sha256()) },
                 PostLogoutRedirectUris = { "http://localhost:5000/index.html" },
                 AllowedScopes = { "openid", "profile", "email", "api1" },
                 AllowedCorsOrigins = { "http://localhost:5000" }
