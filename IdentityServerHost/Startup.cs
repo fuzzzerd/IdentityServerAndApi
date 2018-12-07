@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityServer4.Quickstart.UI;
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +19,7 @@ namespace IdentityServerHost
         }
 
         public IConfiguration Configuration { get; }
+        public static HttpMessageHandler Handler { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -33,6 +35,7 @@ namespace IdentityServerHost
             services.AddAuthentication()
                .AddJwtBearer(jwt =>
                {
+                   jwt.BackchannelHttpHandler = Handler;
                    jwt.Authority = "http://localhost/";
                    jwt.RequireHttpsMetadata = false;
                    jwt.Audience = "api1";

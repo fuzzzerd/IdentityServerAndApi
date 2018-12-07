@@ -8,14 +8,18 @@ using System.Net.Http;
 
 namespace IntegrationTest
 {
-    public class UnitTest1
+    public class TestIntegrationTest
     {
         [Fact]
         public async Task Test1()
         {
             // arrange
             var server = new TestServer(Program.CreateWebHostBuilder(new string[] { }));
-            var client = server.CreateClient();
+
+            var handler = server.CreateHandler();
+            Startup.Handler = handler;
+            var client = new HttpClient(handler);
+            client.BaseAddress = server.BaseAddress;
 
             // discover endpoints from metadata
             var disco = await client.GetDiscoveryDocumentAsync();
