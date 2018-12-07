@@ -33,13 +33,19 @@ namespace IdentityServerHost
                 .AddTestUsers(TestUsers.Users);
 
             services.AddAuthentication()
-               .AddJwtBearer(jwt =>
-               {
-                   jwt.BackchannelHttpHandler = Handler;
-                   jwt.Authority = "http://localhost/";
-                   jwt.RequireHttpsMetadata = false;
-                   jwt.Audience = "api1";
-               });
+                .AddJwtBearer(jwt =>
+                {
+                    // defaults as they were
+                    jwt.Authority = "http://localhost:5000/";
+                    jwt.RequireHttpsMetadata = false;
+                    jwt.Audience = "api1";
+                    // if static handler is null don't change anything, otherwise assume integration test.
+                    if(Handler == null)
+                    {
+                        jwt.BackchannelHttpHandler = Handler;
+                        jwt.Authority = "http://localhost/";
+                    }
+                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
